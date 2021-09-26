@@ -1,0 +1,147 @@
+---
+title: "Analysis of 5 variables of AFL"
+author: "Yingqi Chen"
+date: "26/09/2021"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load required packages
+```{r packages, message=FALSE}
+library(tidyverse)
+library(ggplot2)
+```
+
+## reading data
+```{r read_data, message=FALSE}
+setwd("C:/Users/chels/Desktop/10155")
+Actions <- read_table("Actions.xlsx")
+Entry_location <- read_table("Entry.xlsx")
+Shot <- read_table("Shot.xlsx")
+Opposition_pressure <- read_table("opposition pressure.xlsx")
+Entry_outcome <- read_table("Entry Outcome.xlsx")
+```
+
+
+## dividing hone team & away team data for analysing
+```{r filter data, message=FALSE}
+home_actions <- Actions%>%
+  filter(Actions$Team == "Home")
+away_actions <- Actions%>%
+  filter(Actions$Team == "Away")
+
+home_entry_location <- Entry_location%>%
+  filter(Entry_location$Team == "Home")
+away_entry_location <- Entry_location%>%
+  filter(Entry_location$Team == "Away")
+
+home_shot <- Shot%>%
+  filter(Shot$Team == "Home")
+away_shot <- Shot%>%
+  filter(Shot$Team == "Away")
+
+home_opposition_pressure <- Opposition_pressure%>%
+  filter(Opposition_pressure$Team == "Home")
+away_opposition_pressure <- Opposition_pressure%>%
+  filter(Opposition_pressure$Team == "Away")
+
+home_entry_outcome <- Entry_outcome%>%
+  filter(Entry_outcome$Team == "Home")
+away_entry_outcome <- Entry_outcome%>%
+  filter(Entry_outcome$Team == "Away")
+```
+
+
+## Visualization analysis for Action To Get into 50s
+```{r}
+ggplot(Actions, aes(x = Team, fill = Team, color = Team)) +
+  geom_bar()+
+  xlab("Type of Team")+
+  ylab("Number of observations")+
+  ggtitle("Bar plot for Actions to get into 50")+
+  theme_light()
+```
+### The distribution for Away Team's(WC) entry method
+```{r}
+ggplot(away_actions, aes(x = Outcome, fill = Outcome, color = Outcome))+
+  geom_bar()+
+  xlab("Out come type")+
+  ylab("Number of observations")+
+  ggtitle("Bar plot for distributions of outcomes of away_actions")+
+  theme_light()
+```
+The short kick have the highest percentage of the whole entry action methods of the WC team, so try to increase the opposition pressure when they close to the 50 line is a useful strategy for affect their entry actions.  
+
+
+
+### The distribution for Home Team's entry method
+```{r}
+ggplot(home_actions, aes(x = Outcome, fill = Outcome, color = Outcome))+
+  geom_bar()+
+  xlab("Out come type")+
+  ylab("Number of observations")+
+  ggtitle("Bar plot for distributions of outcomes of home_actions")+
+  theme_light()
+```
+The types of the home team's entry method are only long kick and short kick, so our team members need to try other types of method to increase the possibility of actions to get into 50 line.
+
+
+
+## Visualization analysis for Entry Location types
+
+### The distribution for Away Team's(WC) Entry Location
+```{r}
+ggplot(away_entry_location, aes(x = Outcome, fill = Outcome, color = Outcome))+
+  geom_bar()+
+  xlab("Out come type")+
+  ylab("Number of observations")+
+  ggtitle("Bar plot for distributions of outcomes of away_entry_location")+
+  theme_light()
+```
+For the WC team players, most of them like entering the inside 50 through left part, so if our team player pay more attention to the player who are closing the 50 line from the left side and try to stop them, it will be effective to stop them from getting points.
+
+### The distribution for Home Team's Entry Location
+```{r}
+ggplot(home_entry_location, aes(x = Outcome, fill = Outcome, color = Outcome))+
+  geom_bar()+
+  xlab("Out come type")+
+  ylab("Number of observations")+
+  ggtitle("Bar plot for distributions of outcomes of home_entry_location")+
+  theme_light()
+```
+For our team players, they also refer to get into 50 line through left side, that is because most of the players kick the ball using right foot, so the ball will go to left, but if we adjust the directions of kicking balls, the possibility of being stopped by the other team will decrease.
+
+## Visualization for time of the shots
+
+### Visualization for time of the shots for Away Team(WC)
+```{r}
+ggplot(data = away_shot,aes(x = Start)) +
+  geom_histogram(mapping = aes(y = ..density..), colour = "black", fill = "dodgerblue", binwidth = 0.000000001)+
+  geom_density(alpha = 0.0003 , fill = "black")
+```
+We can find as time goes long, the away team's players shots less, so we need to be confident we can get more points in the second part.
+
+
+## Visualization for opposition pressure
+```{r}
+ggplot(Opposition_pressure, aes(x = Team, fill = Team, color = Team)) +
+  geom_bar()+
+  xlab("Type of Team")+
+  ylab("Number of observations")+
+  ggtitle("Bar plot for opposition pressure")+
+  theme_light()
+```
+
+The times for the number of situations in opposition pressure are same for each team.
+
+
+
+
+
+
+
